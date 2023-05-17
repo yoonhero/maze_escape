@@ -70,7 +70,7 @@ def stream_video():
         # roi = frame[:, int(middle_width-target_width/2):int(middle_width+target_width/2), :]
         
         # new_frame = cv2.hconcat([roi, roi])
-        new_frame = frame[:, target_width, :]
+        new_frame = frame[:, int(frame.shape[1] / 2 - target_width / 2):int(frame.shape[1] / 2 + target_width / 2) , :]
 
         encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 99]
         ret, jpeg = cv2.imencode('.jpg', new_frame, encode_param)
