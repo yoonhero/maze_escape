@@ -63,8 +63,8 @@ class Motor():
 
         time.sleep(0.1)
 
-        GPIO.output(self.leftMotor.in1, GPIO.HIGH)
-        GPIO.output(self.leftMotor.in2, GPIO.LOW)
+        GPIO.output(self.leftMotor.in2, GPIO.HIGH)
+        GPIO.output(self.leftMotor.in1, GPIO.LOW)
         GPIO.output(self.rightMotor.in1, GPIO.HIGH)
         GPIO.output(self.rightMotor.in2, GPIO.LOW)
 
@@ -76,8 +76,8 @@ class Motor():
 
         time.sleep(0.1)
 
-        GPIO.output(self.leftMotor.in1, GPIO.LOW)
-        GPIO.output(self.leftMotor.in2, GPIO.HIGH)
+        GPIO.output(self.leftMotor.in2, GPIO.LOW)
+        GPIO.output(self.leftMotor.in1, GPIO.HIGH)
         GPIO.output(self.rightMotor.in1, GPIO.LOW)
         GPIO.output(self.rightMotor.in2, GPIO.HIGH)
 
@@ -102,8 +102,8 @@ class Motor():
 
         time.sleep(0.1)
 
-        GPIO.output(self.leftMotor.in1, GPIO.LOW)
-        GPIO.output(self.leftMotor.in2, GPIO.HIGH)
+        GPIO.output(self.leftMotor.in2, GPIO.LOW)
+        GPIO.output(self.leftMotor.in1, GPIO.HIGH)
         GPIO.output(self.rightMotor.in1, GPIO.LOW)
         GPIO.output(self.rightMotor.in2, GPIO.LOW)
 
@@ -114,7 +114,7 @@ class Motor():
 
 
 async def start():
-    rcdriver = Motor((6, 5, 13), (16, 26, 12))
+    rcdriver = Motor((5, 6, 13), (16, 26, 12))
 
     while True:
         # for i in range(3):
@@ -131,6 +131,9 @@ async def start():
 
         await rcdriver.right(velocity)
         time.sleep(5)
+        
+        await rcdriver.stop_all()
+        time.sleep(3)
 
 if __name__ == "__main__":
     import asyncio
