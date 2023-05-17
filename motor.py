@@ -133,5 +133,5 @@ async def start():
         time.sleep(5)
 
 if __name__ == "__main__":
-    
-    start()
+    import asyncio
+    asyncio.run(start())
