@@ -47,10 +47,10 @@ class Motor():
         self.stop_all()
 
     def stop_all(self):
-        GPIO.setup(self.leftMotor.in1, GPIO.LOW)
         GPIO.setup(self.leftMotor.in2, GPIO.LOW)
-        GPIO.setup(self.rightMotor.in1, GPIO.LOW)
+        GPIO.setup(self.leftMotor.in1, GPIO.LOW)
         GPIO.setup(self.rightMotor.in2, GPIO.LOW)
+        GPIO.setup(self.rightMotor.in1, GPIO.LOW)
         self.changePWM(0, 0)
 
     def changePWM(self, left_pwm, right_pwm):
@@ -63,10 +63,10 @@ class Motor():
 
         time.sleep(0.1)
 
-        GPIO.output(self.leftMotor.in2, GPIO.HIGH)
-        GPIO.output(self.leftMotor.in1, GPIO.LOW)
-        GPIO.output(self.rightMotor.in1, GPIO.HIGH)
-        GPIO.output(self.rightMotor.in2, GPIO.LOW)
+        GPIO.output(self.leftMotor.in1, GPIO.HIGH)
+        GPIO.output(self.leftMotor.in2, GPIO.LOW)
+        GPIO.output(self.rightMotor.in2, GPIO.HIGH)
+        GPIO.output(self.rightMotor.in1, GPIO.LOW)
 
         return 
 
@@ -76,10 +76,10 @@ class Motor():
 
         time.sleep(0.1)
 
-        GPIO.output(self.leftMotor.in2, GPIO.LOW)
-        GPIO.output(self.leftMotor.in1, GPIO.HIGH)
-        GPIO.output(self.rightMotor.in1, GPIO.LOW)
-        GPIO.output(self.rightMotor.in2, GPIO.HIGH)
+        GPIO.output(self.leftMotor.in1, GPIO.LOW)
+        GPIO.output(self.leftMotor.in2, GPIO.HIGH)
+        GPIO.output(self.rightMotor.in2, GPIO.LOW)
+        GPIO.output(self.rightMotor.in1, GPIO.HIGH)
 
         return 
 
@@ -89,10 +89,10 @@ class Motor():
 
         time.sleep(0.1)
 
-        GPIO.output(self.leftMotor.in1, GPIO.LOW)
         GPIO.output(self.leftMotor.in2, GPIO.LOW)
-        GPIO.output(self.rightMotor.in1, GPIO.LOW)
-        GPIO.output(self.rightMotor.in2, GPIO.HIGH)
+        GPIO.output(self.leftMotor.in1, GPIO.LOW)
+        GPIO.output(self.rightMotor.in2, GPIO.LOW)
+        GPIO.output(self.rightMotor.in1, GPIO.HIGH)
         
         return 
 
@@ -102,10 +102,10 @@ class Motor():
 
         time.sleep(0.1)
 
-        GPIO.output(self.leftMotor.in2, GPIO.LOW)
-        GPIO.output(self.leftMotor.in1, GPIO.HIGH)
-        GPIO.output(self.rightMotor.in1, GPIO.LOW)
+        GPIO.output(self.leftMotor.in1, GPIO.LOW)
+        GPIO.output(self.leftMotor.in2, GPIO.HIGH)
         GPIO.output(self.rightMotor.in2, GPIO.LOW)
+        GPIO.output(self.rightMotor.in1, GPIO.LOW)
 
         return 
 
@@ -132,7 +132,7 @@ async def start():
         await rcdriver.right(velocity)
         time.sleep(5)
         
-        await rcdriver.stop_all()
+        rcdriver.stop_all()
         time.sleep(3)
 
 if __name__ == "__main__":
