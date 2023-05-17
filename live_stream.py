@@ -3,9 +3,9 @@ import cv2
 import time
 # import paho.mqtt.client as mqtt 
 
-# from motor import Motor
+from motor import Motor
 
-# rcdriver = Motor()
+rcdriver = Motor()
 vel = 30
 
 # # Setup callback functions that are called when MQTT events happen like 
@@ -20,18 +20,18 @@ vel = 30
 #     print(msg.topic+" "+str( msg.payload)) 
 #     if msg.topic == '/con/pi': 
 #         direction = msg.topic    
-#         if direction == b"F":
-#             rcdriver.forward(velocity=vel)
-#         elif direction == b"B":
-#             rcdriver.back(velocity=vel)
-#         elif direction == b"L":
-#             rcdriver.left(velocity=vel)
-#         elif direction == b"R":
-#             rcdriver.right(velocity=vel)
-#         elif direction == b"S":
-#             rcdriver.stop_all()
-#         else:
-#             print({"error": "Please select appropriate direction"})
+        # if direction == b"F":
+        #     rcdriver.forward(velocity=vel)
+        # elif direction == b"B":
+        #     rcdriver.back(velocity=vel)
+        # elif direction == b"L":
+        #     rcdriver.left(velocity=vel)
+        # elif direction == b"R":
+        #     rcdriver.right(velocity=vel)
+        # elif direction == b"S":
+        #     rcdriver.stop_all()
+        # else:
+        #     print({"error": "Please select appropriate direction"})
         
 # # Create MQTT client and connect to localhost, i.e. the Raspberry Pi running 
 # # this script and the MQTT server. 
@@ -44,11 +44,27 @@ vel = 30
 
 app = Flask(__name__)
 
-@app.route('/live')
+@app.route("/dir/<param>", method=["POST"])
+def direction(param):
+    direction = param
+    if direction == "F":
+        rcdriver.forward(velocity=vel)
+    elif direction == "B":
+        rcdriver.back(velocity=vel)
+    elif direction == "L":
+        rcdriver.left(velocity=vel)
+    elif direction == "R":
+        rcdriver.right(velocity=vel)
+    elif direction == "S":
+        rcdriver.stop_all()
+    else:
+        print({"error": "Please select appropriate direction"})
+
+@app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/live/video_feed')
+@app.route('/video_feed')
 def video_feed():
     return Response(stream_video(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
