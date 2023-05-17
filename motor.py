@@ -113,27 +113,24 @@ class Motor():
         GPIO.cleanup()
 
 
-def start():
+async def start():
     rcdriver = Motor((5, 6, 13), (16, 26, 12))
 
     while True:
-        for i in range(3):
-            vel = (i+1)*30
-            velocity = [vel, vel]
+        # for i in range(3):
+        vel = 20
+        velocity = [vel, vel]
 
-            time.sleep(1)
-            print(f"PWM: {vel}")
+        print(f"PWM: {vel}")
 
-            rcdriver.forward(velocity)
+        await rcdriver.forward(velocity)
+        time.sleep(5)
 
-            time.sleep(1)
+        await rcdriver.left(velocity)
+        time.sleep(5)
 
-            rcdriver.left(velocity)
-
-
-            time.sleep(1)
-
-            rcdriver.right(velocity)
+        await rcdriver.right(velocity)
+        time.sleep(5)
 
 if __name__ == "__main__":
     
