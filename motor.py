@@ -114,7 +114,7 @@ class Motor():
 
 
 async def start():
-    rcdriver = Motor((5, 6, 13), (16, 26, 12))
+    rcdriver = Motor((6, 5, 13), (16, 26, 12))
 
     while True:
         # for i in range(3):
