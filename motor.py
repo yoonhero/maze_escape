@@ -22,9 +22,9 @@ class MotorPin:
 #     def update(self, ):
 
 class Motor():
-    def __init__(self):
-        self.leftMotor = MotorPin(5, 6, 13)
-        self.rightMotor = MotorPin(16, 26, 12)
+    def __init__(self, leftPins, rightPins):
+        self.leftMotor = MotorPin(leftPins[0], leftPins[1], leftPins[2])
+        self.rightMotor = MotorPin(rightPins[0], rightPins[1], rightPins[2])
 
         GPIO.setmode(GPIO.BCM)
 
@@ -57,50 +57,64 @@ class Motor():
         self.power_left.ChangeDutyCycle(left_pwm)
         self.power_right.ChangeDutyCycle(right_pwm)
 
-    def back(self, velocity):
+    async def back(self, velocity):
         pwm1, pwm2 = velocity[0], velocity[1]
         self.changePWM(pwm1, pwm2)
 
-        GPIO.output(self.leftMotor.in1, GPIO.LOW)
-        GPIO.output(self.leftMotor.in2, GPIO.HIGH)
-        GPIO.output(self.rightMotor.in1, GPIO.HIGH)
-        GPIO.output(self.rightMotor.in2, GPIO.LOW)
-
-    def forward(self, velocity):
-        pwm1, pwm2 = velocity[0], velocity[1]
-        self.changePWM(pwm1, pwm2)
+        time.sleep(0.1)
 
         GPIO.output(self.leftMotor.in1, GPIO.HIGH)
         GPIO.output(self.leftMotor.in2, GPIO.LOW)
-        GPIO.output(self.rightMotor.in1, GPIO.LOW)
-        GPIO.output(self.rightMotor.in2, GPIO.HIGH)
+        GPIO.output(self.rightMotor.in1, GPIO.HIGH)
+        GPIO.output(self.rightMotor.in2, GPIO.LOW)
 
-    def left(self, velocity):
-        right_pwm, left_pwm = velocity[0], velocity[1]
-        self.changePWM(right_pwm, left_pwm)
-        # TODO : Test Angle for accurate turning
+        return 
+
+    async def forward(self, velocity):
+        pwm1, pwm2 = velocity[0], velocity[1]
+        self.changePWM(pwm1, pwm2)
+
+        time.sleep(0.1)
 
         GPIO.output(self.leftMotor.in1, GPIO.LOW)
         GPIO.output(self.leftMotor.in2, GPIO.HIGH)
         GPIO.output(self.rightMotor.in1, GPIO.LOW)
         GPIO.output(self.rightMotor.in2, GPIO.HIGH)
 
-    def right(self, velocity):
+        return 
+
+    async def left(self, velocity):
         right_pwm, left_pwm = velocity[0], velocity[1]
         self.changePWM(right_pwm, left_pwm)
 
-        GPIO.output(self.leftMotor.in1, GPIO.HIGH)
+        time.sleep(0.1)
+
+        GPIO.output(self.leftMotor.in1, GPIO.LOW)
         GPIO.output(self.leftMotor.in2, GPIO.LOW)
-        GPIO.output(self.rightMotor.in1, GPIO.HIGH)
+        GPIO.output(self.rightMotor.in1, GPIO.LOW)
+        GPIO.output(self.rightMotor.in2, GPIO.HIGH)
+        
+        return 
+
+    async def right(self, velocity):
+        right_pwm, left_pwm = velocity[0], velocity[1]
+        self.changePWM(right_pwm, left_pwm)
+
+        time.sleep(0.1)
+
+        GPIO.output(self.leftMotor.in1, GPIO.LOW)
+        GPIO.output(self.leftMotor.in2, GPIO.HIGH)
+        GPIO.output(self.rightMotor.in1, GPIO.LOW)
         GPIO.output(self.rightMotor.in2, GPIO.LOW)
+
+        return 
 
     def reset(self):
         GPIO.cleanup()
 
 
-if __name__ == "__main__":
-    
-    import time
+def start():
+    rcdriver = Motor((5, 6, 13), (16, 26, 12))
 
     while True:
         for i in range(3):
@@ -120,3 +134,7 @@ if __name__ == "__main__":
             time.sleep(1)
 
             rcdriver.right(velocity)
+
+if __name__ == "__main__":
+    
+    start()
