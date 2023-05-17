@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VR 미로 탈출</title>
+    <link href="
+https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css
+" rel="stylesheet">
+    <style>
+        .container {
+            width: 100vw;
+            max-height: 100vw;
+            position: fixed;
+            top:0;
+            left:0;
+            overflow: hidden;
+        }
+        img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+         }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <img id="liveVideo" src="{{ url_for('video_feed') }}">
+    </div>
+    <script>
+        const videoElement = document.getElementById('liveVideo');
+
+        videoElement.addEventListener('click', () => {
+            if (videoElement.requestFullscreen) {
+                videoElement.requestFullscreen();
+            } else if (videoElement.mozRequestFullScreen) {
+                videoElement.mozRequestFullScreen();
+            } else if (videoElement.webkitRequestFullscreen) {
+                videoElement.webkitRequestFullscreen();
+            } else if (videoElement.msRequestFullscreen) {
+                videoElement.msRequestFullscreen();
+            }
+        });
+    </script>
+</body>
+</html>
+
