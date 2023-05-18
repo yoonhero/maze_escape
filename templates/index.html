@@ -16,11 +16,25 @@ https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css
             top:0;
             left:0;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
         }
         img{
-            width: 100%;
-            height: 100%;
-            object-fit: cover
+            width: 90%;
+            object-fit: cover;
+         }
+         .text_container{
+            color: white;
+            position: fixed;
+            top: 0;
+            left:0;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            z-index: 30;
          }
     </style>
 </head>
@@ -28,6 +42,12 @@ https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css
     <div class="container">
 
         <img id="liveVideo" src="{{ url_for('video_feed') }}">
+        <div class="text_container">
+            <!-- <h1 class="x"></h1>
+            <h1 class="y"></h1>
+            <h1 class="z"></h1> -->
+            <h1 class="direction"></h1>
+        </div>
     </div>
     <script>
         const videoElement = document.getElementById('liveVideo');
@@ -42,28 +62,74 @@ https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css
             } else if (videoElement.msRequestFullscreen) {
                 videoElement.msRequestFullscreen();
             }
+
+            // setTimeout(() => {
+            //     x_degree = 0;
+            //     y_degree = 0;
+            //     z_degree = 0;
+            // }, 3000)
         });
         
-        let gyroscope = new Gyroscope({ frequency: 60 });
-        const threshold_angle = 30;
-        gyroscope.addEventListener("reading", (e) => {
-            let direction = "";
 
-            if (gyroscope.y > threshold_angle){
+        if ('DeviceOrientationEvent' in window) {
+        window.addEventListener('deviceorientation', handleOrientation);
+        } else {
+        console.log('Device orientation not supported.');
+        }
+
+
+        let direction = "";
+        let threshold_angle = 20;
+
+        function handleOrientation(event) {
+            const alpha = event.alpha; // Rotation around the z-axis
+            const beta = event.beta; // Rotation around the x-axis
+            const gamma = event.gamma; // Rotation around the y-axis
+
+            // document.querySelector(".x").innerHTML = beta;
+            // document.querySelector(".y").innerHTML = gamma;
+            // document.querySelector(".z").innerHTML = alpha;
+
+            direction = ""
+            if (beta > 20 && beta < 90){
+                direction = "R"
+            } else if (beta < -20 && beta > -90){
+                direction = "L"
+            } else if (gamma > -90+threshold_angle && gamma < 0){
                 direction = "F";
-            } else if (-gyroscope.y > threshold_angle){
+            } else if (gamma < 90-threshold_angle && gamma > 0){
                 direction = "B";
-            } else if (gyroscope.x > threshold_angle){
-                direction = "R";
-            } else if (-gyroscope.x > threshold_angle){
-                direction = "L";
-            } 
-
-            if (direction != ""){
-                fetch(`/dir/${direction}`)
+            } else {
+                direction = "STOP";
             }
-            });
-        gyroscope.start();
+
+            document.querySelector(".direction").innerHTML = direction
+
+            fetch(`/dir/${direction}`)
+        }
+        // let gyroscope = new Gyroscope({ frequency: 60 });
+        // const threshold_angle = 20; 359.5&-2.2&-1.3 356.40000000000003&-2&-82.30000000000001
+
+        // gyroscope.addEventListener("reading", (e) => {
+        //     let direction = "";
+
+        //     // const angularVelocity = gyroscope.rotationRate.z; 
+        //     const time = gyroscope.timestamp / 1000;
+
+        //     x_degree += gyroscope.x * time;
+        //     y_degree += gyroscope.y * time;
+        //     z_degree += gyroscope.z * time;
+
+        //     fetch(`/dir/${x_degree}&${y_degree}`)
+
+        //     // let x_degree = gyroscope.x * 100
+        //     // let y_degree = gyroscope.y * 100
+        //     // let z_degree = gyroscope.z * 100
+
+            
+        //     });
+
+        // gyroscope.start();
         // setInterval(() => handle_video(), 100)
     </script>
 </body>

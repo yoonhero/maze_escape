@@ -44,21 +44,24 @@ vel = 30
 
 app = Flask(__name__)
 
-@app.route("/dir/<param>", method=["POST"])
-def direction(param):
+@app.route("/dir/<param>", methods=["GET"])
+async def direction(param):
     direction = param
+    print(f'Direction: {direction}')
     if direction == "F":
-        rcdriver.forward(velocity=vel)
+        await rcdriver.forward(velocity=vel)
     elif direction == "B":
-        rcdriver.back(velocity=vel)
+        await rcdriver.back(velocity=vel)
     elif direction == "L":
-        rcdriver.left(velocity=vel)
+        await rcdriver.left(velocity=vel)
     elif direction == "R":
-        rcdriver.right(velocity=vel)
-    elif direction == "S":
+        await rcdriver.right(velocity=vel)
+    elif direction == "STOP":
         rcdriver.stop_all()
     else:
         print({"error": "Please select appropriate direction"})
+
+    return jsonify({"result": "GOOD"})
 
 @app.route('/')
 def index():
@@ -98,4 +101,4 @@ def stream_video():
     camera.release()
 
 if __name__ == '__main__':
-    app.run("0.0.0.0", 8080, debug=True)
+    app.run("0.0.0.0", 8000, debug=True)
