@@ -61,11 +61,7 @@ def stream_video():
         target_size = (1024,768)
         ratio = target_size[1] / target_size[0] 
         height = frame.shape[0]
-        middle_width = frame.shape[1] / 2
         target_width = height * ratio
-        # roi = frame[:, int(middle_width-target_width/2):int(middle_width+target_width/2), :]
-        
-        # new_frame = cv2.hconcat([roi, roi])
         new_frame = frame[:, int(frame.shape[1] / 2 - target_width / 2):int(frame.shape[1] / 2 + target_width / 2) , :]
 
         encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 99]

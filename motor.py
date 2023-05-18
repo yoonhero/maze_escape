@@ -14,13 +14,6 @@ class MotorPin:
     in2: int
     ena: int
 
-
-# class CustomPID():
-#     def __init__(self):
-#         self.pwms = []
-
-#     def update(self, ):
-
 class Motor():
     def __init__(self, leftPins, rightPins):
         self.leftMotor = MotorPin(leftPins[0], leftPins[1], leftPins[2])
@@ -38,7 +31,6 @@ class Motor():
         GPIO.setup(self.rightMotor.in2, GPIO.OUT)
         GPIO.setup(self.rightMotor.ena, GPIO.OUT)
 
-        # TODO: Test PWM
         self.power_left = GPIO.PWM(self.leftMotor.ena, 20)
         self.power_right = GPIO.PWM(self.rightMotor.ena, 20)
         self.power_left.start(0)
@@ -58,8 +50,6 @@ class Motor():
         self.power_right.ChangeDutyCycle(vel)
 
     def back(self, velocity):
-        # pwm1, pwm2 = velocity[0], velocity[1]
-
         GPIO.output(self.leftMotor.in1, GPIO.HIGH)
         GPIO.output(self.leftMotor.in2, GPIO.LOW)
         GPIO.output(self.rightMotor.in2, GPIO.HIGH)
@@ -69,10 +59,6 @@ class Motor():
         return 
 
     def forward(self, velocity):
-        # pwm1, pwm2 = velocity[0], velocity[1]
-
-        time.sleep(0.1)
-
         GPIO.output(self.leftMotor.in1, GPIO.LOW)
         GPIO.output(self.leftMotor.in2, GPIO.HIGH)
         GPIO.output(self.rightMotor.in2, GPIO.LOW)
@@ -82,8 +68,6 @@ class Motor():
         return 
 
     def left(self, velocity):
-        # right_pwm, left_pwm = velocity[0], velocity[1]
-
         GPIO.output(self.leftMotor.in2, GPIO.LOW)
         GPIO.output(self.leftMotor.in1, GPIO.LOW)
         GPIO.output(self.rightMotor.in2, GPIO.LOW)
@@ -129,4 +113,4 @@ def start():
 
 if __name__ == "__main__":
     import asyncio
-    asyncio.run(start())
+    start()

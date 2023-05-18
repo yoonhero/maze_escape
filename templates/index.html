@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -43,9 +43,6 @@ https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css
 
         <img id="liveVideo" src="{{ url_for('video_feed') }}">
         <div class="text_container">
-            <!-- <h1 class="x"></h1>
-            <h1 class="y"></h1>
-            <h1 class="z"></h1> -->
             <h1 class="direction"></h1>
         </div>
     </div>
@@ -62,12 +59,6 @@ https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css
             } else if (videoElement.msRequestFullscreen) {
                 videoElement.msRequestFullscreen();
             }
-
-            // setTimeout(() => {
-            //     x_degree = 0;
-            //     y_degree = 0;
-            //     z_degree = 0;
-            // }, 3000)
         });
         
 
@@ -89,10 +80,6 @@ https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css
             alpha = event.alpha; // Rotation around the z-axis
             beta = event.beta; // Rotation around the x-axis
             gamma = event.gamma; // Rotation around the y-axis
-
-            // document.querySelector(".x").innerHTML = beta;
-            // document.querySelector(".y").innerHTML = gamma;
-            // document.querySelector(".z").innerHTML = alpha;
         }
 
         setInterval(()=>{
@@ -118,30 +105,6 @@ https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css
 
             fetch(`/dir/${direction}?angle=${angle}`)
         }, 200)
-        // let gyroscope = new Gyroscope({ frequency: 60 });
-        // const threshold_angle = 20; 359.5&-2.2&-1.3 356.40000000000003&-2&-82.30000000000001
-
-        // gyroscope.addEventListener("reading", (e) => {
-        //     let direction = "";
-
-        //     // const angularVelocity = gyroscope.rotationRate.z; 
-        //     const time = gyroscope.timestamp / 1000;
-
-        //     x_degree += gyroscope.x * time;
-        //     y_degree += gyroscope.y * time;
-        //     z_degree += gyroscope.z * time;
-
-        //     fetch(`/dir/${x_degree}&${y_degree}`)
-
-        //     // let x_degree = gyroscope.x * 100
-        //     // let y_degree = gyroscope.y * 100
-        //     // let z_degree = gyroscope.z * 100
-
-            
-        //     });
-
-        // gyroscope.start();
-        // setInterval(() => handle_video(), 100)
     </script>
 </body>
 </html>
