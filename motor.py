@@ -39,8 +39,8 @@ class Motor():
         GPIO.setup(self.rightMotor.ena, GPIO.OUT)
 
         # TODO: Test PWM
-        self.power_left = GPIO.PWM(self.leftMotor.ena, 100)
-        self.power_right = GPIO.PWM(self.rightMotor.ena, 100)
+        self.power_left = GPIO.PWM(self.leftMotor.ena, 20)
+        self.power_right = GPIO.PWM(self.rightMotor.ena, 20)
         self.power_left.start(0)
         self.power_right.start(0)
 
@@ -51,28 +51,25 @@ class Motor():
         GPIO.setup(self.leftMotor.in1, GPIO.LOW)
         GPIO.setup(self.rightMotor.in2, GPIO.LOW)
         GPIO.setup(self.rightMotor.in1, GPIO.LOW)
-        self.changePWM(0, 0)
+        # self.changePWM(0, 0)
 
     def changePWM(self, left_pwm, right_pwm):
         self.power_left.ChangeDutyCycle(left_pwm)
         self.power_right.ChangeDutyCycle(right_pwm)
 
     def back(self, velocity):
-        pwm1, pwm2 = velocity[0], velocity[1]
-        self.changePWM(pwm1, pwm2)
-
-        time.sleep(0.1)
+        # pwm1, pwm2 = velocity[0], velocity[1]
 
         GPIO.output(self.leftMotor.in1, GPIO.HIGH)
         GPIO.output(self.leftMotor.in2, GPIO.LOW)
         GPIO.output(self.rightMotor.in2, GPIO.HIGH)
         GPIO.output(self.rightMotor.in1, GPIO.LOW)
 
+        self.changePWM(velocity)
         return 
 
     def forward(self, velocity):
-        pwm1, pwm2 = velocity[0], velocity[1]
-        self.changePWM(pwm1, pwm2)
+        # pwm1, pwm2 = velocity[0], velocity[1]
 
         time.sleep(0.1)
 
@@ -81,32 +78,27 @@ class Motor():
         GPIO.output(self.rightMotor.in2, GPIO.LOW)
         GPIO.output(self.rightMotor.in1, GPIO.HIGH)
 
+        self.changePWM(velocity)
         return 
 
     def left(self, velocity):
-        right_pwm, left_pwm = velocity[0], velocity[1]
-        self.changePWM(right_pwm, left_pwm)
-
-        time.sleep(0.1)
+        # right_pwm, left_pwm = velocity[0], velocity[1]
 
         GPIO.output(self.leftMotor.in2, GPIO.LOW)
         GPIO.output(self.leftMotor.in1, GPIO.LOW)
         GPIO.output(self.rightMotor.in2, GPIO.LOW)
         GPIO.output(self.rightMotor.in1, GPIO.HIGH)
         
+        self.changePWM(velocity)
         return 
 
     def right(self, velocity):
-        right_pwm, left_pwm = velocity[0], velocity[1]
-        self.changePWM(right_pwm, left_pwm)
-
-        time.sleep(0.1)
-
         GPIO.output(self.leftMotor.in1, GPIO.LOW)
         GPIO.output(self.leftMotor.in2, GPIO.HIGH)
         GPIO.output(self.rightMotor.in2, GPIO.LOW)
         GPIO.output(self.rightMotor.in1, GPIO.LOW)
 
+        self.changePWM(velocity)
         return 
 
     def reset(self):

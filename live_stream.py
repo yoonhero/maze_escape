@@ -57,11 +57,9 @@ def direction(param):
         rcdriver.left(velocity=velocity)
     elif direction == "R":
         rcdriver.right(velocity=velocity)
-    elif direction == "STOP":
-        rcdriver.stop_all()
     else:
-        print({"error": "Please select appropriate direction"})
-
+        rcdriver.stop_all()
+        
     return jsonify({"result": "GOOD"})
 
 @app.route('/')
