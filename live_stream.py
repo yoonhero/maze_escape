@@ -6,7 +6,7 @@ import time
 from motor import Motor
 
 rcdriver = Motor((5, 6, 13), (16, 26, 12))
-vel = 30
+velocity = 30
 
 # # Setup callback functions that are called when MQTT events happen like 
 # # connecting to the server or receiving data from a subscribed feed. 
@@ -47,7 +47,8 @@ app = Flask(__name__)
 @app.route("/dir/<param>", methods=["GET"])
 def direction(param):
     direction = param
-    velocity = [vel, vel]
+    # velocity = [vel, vel]
+
     print(f'Direction: {direction}')
     if direction == "F":
         rcdriver.forward(velocity=velocity)
@@ -59,7 +60,7 @@ def direction(param):
         rcdriver.right(velocity=velocity)
     else:
         rcdriver.stop_all()
-        
+
     return jsonify({"result": "GOOD"})
 
 @app.route('/')

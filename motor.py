@@ -53,9 +53,9 @@ class Motor():
         GPIO.setup(self.rightMotor.in1, GPIO.LOW)
         # self.changePWM(0, 0)
 
-    def changePWM(self, left_pwm, right_pwm):
-        self.power_left.ChangeDutyCycle(left_pwm)
-        self.power_right.ChangeDutyCycle(right_pwm)
+    def changePWM(self, vel):
+        self.power_left.ChangeDutyCycle(vel)
+        self.power_right.ChangeDutyCycle(vel)
 
     def back(self, velocity):
         # pwm1, pwm2 = velocity[0], velocity[1]
