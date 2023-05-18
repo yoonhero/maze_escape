@@ -45,17 +45,17 @@ vel = 30
 app = Flask(__name__)
 
 @app.route("/dir/<param>", methods=["GET"])
-async def direction(param):
+def direction(param):
     direction = param
     print(f'Direction: {direction}')
     if direction == "F":
-        await rcdriver.forward(velocity=vel)
+        rcdriver.forward(velocity=vel)
     elif direction == "B":
-        await rcdriver.back(velocity=vel)
+        rcdriver.back(velocity=vel)
     elif direction == "L":
-        await rcdriver.left(velocity=vel)
+        rcdriver.left(velocity=vel)
     elif direction == "R":
-        await rcdriver.right(velocity=vel)
+        rcdriver.right(velocity=vel)
     elif direction == "STOP":
         rcdriver.stop_all()
     else:

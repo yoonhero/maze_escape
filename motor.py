@@ -57,7 +57,7 @@ class Motor():
         self.power_left.ChangeDutyCycle(left_pwm)
         self.power_right.ChangeDutyCycle(right_pwm)
 
-    async def back(self, velocity):
+    def back(self, velocity):
         pwm1, pwm2 = velocity[0], velocity[1]
         self.changePWM(pwm1, pwm2)
 
@@ -70,7 +70,7 @@ class Motor():
 
         return 
 
-    async def forward(self, velocity):
+    def forward(self, velocity):
         pwm1, pwm2 = velocity[0], velocity[1]
         self.changePWM(pwm1, pwm2)
 
@@ -83,7 +83,7 @@ class Motor():
 
         return 
 
-    async def left(self, velocity):
+    def left(self, velocity):
         right_pwm, left_pwm = velocity[0], velocity[1]
         self.changePWM(right_pwm, left_pwm)
 
@@ -96,7 +96,7 @@ class Motor():
         
         return 
 
-    async def right(self, velocity):
+    def right(self, velocity):
         right_pwm, left_pwm = velocity[0], velocity[1]
         self.changePWM(right_pwm, left_pwm)
 
@@ -113,7 +113,7 @@ class Motor():
         GPIO.cleanup()
 
 
-async def start():
+def start():
     rcdriver = Motor((5, 6, 13), (16, 26, 12))
 
     while True:
@@ -123,13 +123,13 @@ async def start():
 
         print(f"PWM: {vel}")
 
-        await rcdriver.forward(velocity)
+        rcdriver.forward(velocity)
         time.sleep(5)
 
-        await rcdriver.left(velocity)
+        rcdriver.left(velocity)
         time.sleep(5)
 
-        await rcdriver.right(velocity)
+        rcdriver.right(velocity)
         time.sleep(5)
         
         rcdriver.stop_all()
