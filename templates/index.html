@@ -97,21 +97,26 @@ https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css
 
         setInterval(()=>{
             direction = ""
+            let angle = 0
             if (beta > 20 && beta < 90){
                 direction = "R"
+                angle = beta - 20
             } else if (beta < -20 && beta > -90){
                 direction = "L"
+                angle = Math.abs(beta + 20)
             } else if (gamma > -90+threshold_angle && gamma < 0){
                 direction = "F";
+                angle = Math.abs(gamma - threshold_angle + 90)
             } else if (gamma < 90-threshold_angle && gamma > 0){
                 direction = "B";
+                angle = Math.abs(gamma + threshold_angle - 90)
             } else {
                 direction = "STOP";
             }
 
             document.querySelector(".direction").innerHTML = direction
 
-            fetch(`/dir/${direction}`)
+            fetch(`/dir/${direction}?angle=${angle}`)
         }, 200)
         // let gyroscope = new Gyroscope({ frequency: 60 });
         // const threshold_angle = 20; 359.5&-2.2&-1.3 356.40000000000003&-2&-82.30000000000001

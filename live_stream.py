@@ -1,67 +1,44 @@
 from flask import Flask, render_template, Response, request, jsonify
 import cv2
 import time
-# import paho.mqtt.client as mqtt 
+import math
 
 from motor import Motor
 
 rcdriver = Motor((5, 6, 13), (16, 26, 12))
-velocity = 30
-
-# # Setup callback functions that are called when MQTT events happen like 
-# # connecting to the server or receiving data from a subscribed feed. 
-# def on_connect(client, userdata, flags, rc): 
-#    print("Connected with result code " + str(rc)) 
-#    # Subscribing in on_connect() means that if we lose the connection and 
-#    # reconnect then subscriptions will be renewed. 
-#    client.subscribe("/con/pi") 
-# # The callback for when a PUBLISH message is received from the server. 
-# def on_message(client, userdata, msg): 
-#     print(msg.topic+" "+str( msg.payload)) 
-#     if msg.topic == '/con/pi': 
-#         direction = msg.topic    
-        # if direction == b"F":
-        #     rcdriver.forward(velocity=vel)
-        # elif direction == b"B":
-        #     rcdriver.back(velocity=vel)
-        # elif direction == b"L":
-        #     rcdriver.left(velocity=vel)
-        # elif direction == b"R":
-        #     rcdriver.right(velocity=vel)
-        # elif direction == b"S":
-        #     rcdriver.stop_all()
-        # else:
-        #     print({"error": "Please select appropriate direction"})
-        
-# # Create MQTT client and connect to localhost, i.e. the Raspberry Pi running 
-# # this script and the MQTT server. 
-# client = mqtt.Client() 
-# client.on_connect = on_connect 
-# client.on_message = on_message 
-# client.connect('localhost', 1883, 60) 
-# # Connect to the MQTT server and process messages in a background thread. 
-# client.loop_start() 
+velocity = 20
 
 app = Flask(__name__)
 
 @app.route("/dir/<param>", methods=["GET"])
 def direction(param):
     direction = param
-    # velocity = [vel, vel]
+    angle = int(request.args.get('angle'))
+    
+    x_axis = ["F", "L"]
+    y_axis = ["L", "R"]
 
-    print(f'Direction: {direction}')
-    if direction == "F":
-        rcdriver.forward(velocity=velocity)
-    elif direction == "B":
-        rcdriver.back(velocity=velocity)
-    elif direction == "L":
-        rcdriver.left(velocity=velocity)
-    elif direction == "R":
-        rcdriver.right(velocity=velocity)
-    else:
-        rcdriver.stop_all()
+    t_vel = 0
+    if direction in x_axis:
+        t_vel = int(velocity + math.log10(int) * 5)
+    elif direction in y_axis:
+        t_vel = int(velocity + math.log10(angle) * 3)
 
-    return jsonify({"result": "GOOD"})
+    try: 
+        if direction == "F":
+            rcdriver.forward(velocity=t_vel)
+        elif direction == "B":
+            rcdriver.back(velocity=t_vel)
+        elif direction == "L":
+            rcdriver.left(velocity=t_vel)
+        elif direction == "R":
+            rcdriver.right(velocity=t_vel)
+        else:
+            rcdriver.stop_all()
+
+        return jsonify({"status": "Niceeee!!"})
+    except: 
+        return jsonify({"status": "Internal Server Error"})
 
 @app.route('/')
 def index():
