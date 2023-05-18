@@ -5,7 +5,7 @@ import time
 
 from motor import Motor
 
-rcdriver = Motor()
+rcdriver = Motor((5, 6, 13), (16, 26, 12))
 vel = 30
 
 # # Setup callback functions that are called when MQTT events happen like 
