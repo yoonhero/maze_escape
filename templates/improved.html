@@ -23,7 +23,7 @@ https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css
             align-items: center;
         }
         img{
-            width: 90%;
+            width: 100%;
             object-fit: cover;
          }
          .text_container{
@@ -60,22 +60,11 @@ https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css
                 socket.emit("send")
             }
         })
-        
-        function base64ToArrayBuffer(base64) {
-            var binaryString = window.atob(base64);
-            var binaryLen = binaryString.length;
-            var bytes = new Uint8Array(binaryLen);
-            for (var i = 0; i < binaryLen; i++) {
-                var ascii = binaryString.charCodeAt(i);
-                bytes[i] = ascii;
-            }
-            return bytes;
-        }
 
         socket.on("video", function(msg) {            
             var r = msg.data;
-            // console.log(r)
-            videoElement.src = r
+            const base64String = btoa(String.fromCharCode(...new Uint8Array(r)));
+            videoElement.src =  "data:image/jpeg;base64,"+base64String
             socket.emit("send")
         })  
 
