@@ -28,11 +28,11 @@ def direction(param):
         if direction == "F":
             rcdriver.forward(velocity=t_vel)
         elif direction == "B":
-            rcdriver.back(velocity=t_vel)
+            rcdriver.back(velocity=velocity)
         elif direction == "L":
-            rcdriver.left(velocity=t_vel)
+            rcdriver.left(velocity=velocity)
         elif direction == "R":
-            rcdriver.right(velocity=t_vel)
+            rcdriver.right(velocity=velocity)
         else:
             rcdriver.stop_all()
 
