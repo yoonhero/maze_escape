@@ -15,15 +15,15 @@ import numpy as np
 
 load_dotenv()
 
-# from motor import Motor
+from motor import Motor
 
-# rcdriver = Motor((5, 6, 13), (16, 26, 12))
+rcdriver = Motor((5, 6, 13), (16, 26, 12))
 
 velocity = 20
 # vel_queue = []
 
 app = Flask(__name__)
-app.secret_key = os.environ["SECRET_KEY"]
+# app.secret_key = os.environ["SECRET_KEY"]
 socketio = SocketIO(app)
 camera = cv2.VideoCapture(0) 
 camera.set(cv2.CAP_PROP_FRAME_WIDTH, 512)
@@ -122,16 +122,16 @@ def control(data):
 
     try: 
         print(direction, t_vel)
-        # if direction == "F":
-        #     rcdriver.forward(velocity=t_vel)
-        # elif direction == "B":
-        #     rcdriver.back(velocity=t_vel)
-        # elif direction == "L":
-        #     rcdriver.left(velocity=t_vel)
-        # elif direction == "R":
-        #     rcdriver.right(velocity=t_vel)
-        # else:
-        #     rcdriver.stop_all()
+        if direction == "F":
+            rcdriver.forward(velocity=t_vel)
+        elif direction == "B":
+            rcdriver.back(velocity=t_vel)
+        elif direction == "L":
+            rcdriver.left(velocity=t_vel)
+        elif direction == "R":
+            rcdriver.right(velocity=t_vel)
+        else:
+            rcdriver.stop_all()
     except: 
         return 
 
