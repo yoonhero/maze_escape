@@ -10,6 +10,7 @@ https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css
 " rel="stylesheet">
     <style>
         .container {
+            background: black;
             width: 100vw;
             height: 100vh;
             max-height: 100vh;
@@ -29,18 +30,18 @@ https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css
          .text_container{
             color: white;
             position: fixed;
-            top: 0;
-            left:0;
-            top: 50%;
-            left: 50%;
+            top: 20px;
+            left:20px;
+            /* top: 50%; */
+            /* left: 50%; */
             transform: translateX(-50%);
-            font-size: 20px;
+            font-size: 25px;
             z-index: 30;
          }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="container">
 
         <img id="liveVideo" />
         <div class="text_container">
@@ -51,6 +52,7 @@ https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js" integrity="sha512-xbQU0+iHqhVt7VIXi6vBJKPh3IQBF5B84sSHdjKiSccyX/1ZI7Vnkt2/8y8uruj63/DVmCxfUNohPNruthTEQA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         const videoElement = document.getElementById('liveVideo');
+        const videoContainer = document.getElementById("container")
 
         const socket = io("/socket");
 
@@ -68,15 +70,17 @@ https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css
             socket.emit("send")
         })  
 
-        videoElement.addEventListener('click', () => {
-            if (videoElement.requestFullscreen) {
-                videoElement.requestFullscreen();
-            } else if (videoElement.mozRequestFullScreen) {
-                videoElement.mozRequestFullScreen();
-            } else if (videoElement.webkitRequestFullscreen) {
-                videoElement.webkitRequestFullscreen();
-            } else if (videoElement.msRequestFullscreen) {
-                videoElement.msRequestFullscreen();
+        videoContainer.addEventListener('click', () => {
+            if (videoContainer.requestFullscreen) {
+                videoContainer.requestFullscreen();
+            } else if (videoContainer.mozRequestFullScreen) {
+                videoContainer.mozRequestFullScreen();
+            } else if (videoContainer.webkitRequestFullscreen) {
+                videoContainer.webkitRequestFullscreen();
+            } else if (videoContainer.msRequestFullscreen) {
+                videoContainer.msRequestFullscreen();
+            } else {
+                videoContainer.exitFullscreen()
             }
         });
         
